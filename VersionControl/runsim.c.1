@@ -1,0 +1,36 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+//#include "testsim.c"
+
+int main(int argc, char* argv[])
+{
+	int n;
+	int opt;
+	while ((opt = getopt(argc, argv, "hn:")) != -1) {
+		switch(opt) {
+			case 'h':
+				printf("%s: Usage: ./proc_fan -n x, where x is some int\n", argv[0]);
+				break;
+			case 'n':
+				n = atoi(optarg);
+				break;
+			case '?':
+				if(optopt == 'n') {
+					printf("%s: ", argv[0]);
+					perror("Usage: ");
+				}
+				//perror("Error: ");
+				printf("IN ?\n");
+				break;
+			default:
+				printf("DEFAULT\n");
+				break;
+				//return -1;
+		}
+	}
+
+	printf("%d\n", n);
+	return 0;
+}
