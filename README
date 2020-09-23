@@ -5,4 +5,6 @@ This program will run a specific number of forked processes given by the user. E
 
 WARNING: This project is incomplete and will segmentation fault.
 
-In order to run this file, type "./runsim -n x", where x is the max number of child processes to occur at a given time.
+Notes: fork() was executing fine until I tried to add some things and then the segmentation faults began. I do not know where makeargv and execvp should be used at. I could not figure out why the segmentation faults were occuring which is why this project is so incomplete. I apologize for such an unfinished project. Version control is done through git. My account name is "dmmv2r" and the project is "mcdonoug.1". The "VersionControl" folder holds some versions of both runsim.c and testsim.c, as I had not figured out how to use git yet.
+
+Instructions: In order to run this file, type "./runsim -n x", where x is the max number of child processes to occur at a given time.
