@@ -13,4 +13,4 @@ testsim.o: testsim.c
 	gcc -Wall -g -c testsim.c
 
 clean:
-	rm -rf *o mcdonoug.1 proc_fan
+	rm -rf *o mcdonoug.1 runsim testsim

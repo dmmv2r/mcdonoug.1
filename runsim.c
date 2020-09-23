@@ -1,9 +1,11 @@
+//Author: Donovan McDonough
+//Date: 9/22/2020
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
-//#include "testsim.c"
+#include <string.h>
 
 int main(int argc, char* argv[])
 {
@@ -11,9 +13,11 @@ int main(int argc, char* argv[])
 	int pr_limit;
 	int pr_count = 0;
 	pid_t childpid = 0;
-	int i;
-
-
+	const int MAX_CANON = 50;
+	char read[MAX_CANON];
+	FILE *testd;
+	
+	//checks for a valid number of arguments
 	if(argc < 2) {
 		fprintf(stderr, "There must be at least 2 arguments\n");
 		return -1;
@@ -21,29 +25,39 @@ int main(int argc, char* argv[])
 
 	while ((opt = getopt(argc, argv, "hn:")) != -1) {
 		switch(opt) {
-			case 'h':
-				printf("%s: Usage: ./proc_fan -n x, where x is some int\n", argv[0]);
+			case 'h': //outputs help message
+				printf("%s: Usage: %s -n x, where x is some int\n", argv[0], argv[0]);
 				return -1;
-			case 'n':
+			case 'n': //detects proper command line arguments
 				pr_limit = atoi(optarg);
 				break;
-			default:
-				printf("Usage: ./proc_fan -n x, where x is some int\n");
+			default: //detects improper command line arguments
+				printf("Usage: %s -n x, where x is some int\n", argv[0]);
 				return -1;
 		}
 	}
+	
+	//opens test.data file for reading
+	testd = fopen("test.data", "r");
 
-	for(i = 1; i < pr_limit; i++) {
+	while(fgets(read, MAX_CANON, testd)) {
+
+	//for(i = 1; i < pr_limit; i++) {
 		if((childpid = fork()) <= 0) {
-			break;
+			perror("Error: child failed");
+			return -1;
 		}
-		if(pr_limit == pr_count) {
+		if(pr_limit == pr_count) { //checks if max number of processes has been reached
 			wait(NULL);
 			pr_count--;
 		}
+		pr_count++;
+
+		strcat("./", read);
+		system(read); //calls testsim with arguments from test.data
 	}
-	fprintf(stderr, "i:%d process ID:%ld parent ID:%ld child ID:%ld\n",
-		i, (long) getpid(), (long)getppid(), (long) childpid);
+
+	fclose(testd); //closes test.data
 	
 	return 0;
 }

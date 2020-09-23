@@ -1,1 +1,8 @@
-dboibhbwe
+Author: Donovan McDonough
+Date: 9/22/2020
+
+This program will run a specific number of forked processes given by the user. Each process will be passed into testsim.c where the given processes pid will be outputted a number of times at specific intervals given in the file "test.data".
+
+WARNING: This project is incomplete and will segmentation fault.
+
+In order to run this file, type "./runsim -n x", where x is the max number of child processes to occur at a given time.
